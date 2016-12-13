@@ -23,7 +23,7 @@ public class Main {
 
 
 
-
+        /*
         HttpClient client = new HttpClient();
         try {
             do{
@@ -39,5 +39,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
     }
 }

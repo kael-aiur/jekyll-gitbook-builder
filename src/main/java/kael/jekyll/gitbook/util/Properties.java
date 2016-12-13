@@ -1,19 +1,17 @@
 package kael.jekyll.gitbook.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 /**
  * Created by kael on 2016/12/13.
  */
-public class Properties {
+public class Properties{
 
     private final java.util.Properties properties;
 
-    public Properties(String file) {
+    public Properties(File file) {
         properties = new java.util.Properties();
         InputStream is = null;
         try {
@@ -36,5 +34,9 @@ public class Properties {
 
     public String get(String key){
         return Objects.toString(properties.get(key));
+    }
+
+    public void forEach(BiConsumer action){
+        properties.forEach(action);
     }
 }
