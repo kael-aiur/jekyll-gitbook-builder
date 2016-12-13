@@ -38,7 +38,7 @@ public class JekyllAndGitBookBuilder implements WebSiteBuilder{
     private final StaticBuilder gitBookBuilder;
 
     public JekyllAndGitBookBuilder() {
-        this.threadPool = Executors.newFixedThreadPool(15);
+        this.threadPool = Executors.newFixedThreadPool(5);
         this.properties = new Properties(this.getClass().getResource("/config.properties").getFile());
         GitClient jekyllClient = new DefaultGitClient(properties.get(GIT_BASH),properties.get(JEKYLL_GIT_LOCAL_REPO));
         GitClient gitBookClient = new DefaultGitClient(properties.get(GIT_BASH),properties.get(GITBOOK_GIT_LOCAL_REPO));
