@@ -1,5 +1,6 @@
 package kael.jekyll.gitbook.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class GitBookBuilder extends AbstractBuilder {
     @Override
     protected ProcessBuilder getCommand() {
         ProcessBuilder command = new ProcessBuilder(this.command,"build",source,target);
-        command.command();
+        command.directory(new File(source));
         return command;
 
     }
