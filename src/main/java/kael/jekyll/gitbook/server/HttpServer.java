@@ -18,11 +18,13 @@ import java.io.*;
 import java.net.URL;
 
 public class HttpServer {
-    public void start(int port) throws Exception {
+    public void start() throws Exception {
 
         Properties properties = new Properties(getConfig());
 
         properties.forEach((k,v)->System.out.println(k+":"+v));
+
+        int port = properties.getInt("server.port");
 
         WebSiteBuilder builder = new JekyllAndGitBookBuilder(properties);
         EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)

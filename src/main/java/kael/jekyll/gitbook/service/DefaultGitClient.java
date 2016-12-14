@@ -1,5 +1,6 @@
 package kael.jekyll.gitbook.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,10 +18,11 @@ public class DefaultGitClient implements GitClient {
 
     @Override
     public void pull(String repository, String branch) {
-        String cmd = gitBash + " -C " + localRepository + " pull " + repository + " " + branch;
-        System.out.println(cmd);
+        ProcessBuilder pb = new ProcessBuilder(gitBash,"pull",repository,branch);
+        pb.directory(new File(localRepository));
         try {
-            Process process = Runtime.getRuntime().exec(cmd);
+            System.out.println("start pull:GIT_DIR=" + localRepository +" "+ gitBash + " pull " + " " + repository + " " + branch);
+            Process process = pb.start();
             print(process);
         } catch (IOException e) {
             throw new RuntimeException(e);

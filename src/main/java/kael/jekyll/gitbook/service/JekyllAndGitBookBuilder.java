@@ -24,7 +24,7 @@ public class JekyllAndGitBookBuilder implements WebSiteBuilder{
     public static final String JEKYLL_PROJECT_NAME = "jekyll.project.name";
 
 
-    public static final String GITBOOK_BASH = "gitbook.base";
+    public static final String GITBOOK_BASH = "gitbook.bash";
     public static final String GITBOOK_REPO = "gitbook.repository";
     public static final String GITBOOK_BRANCH = "gitbook.branch";
     public static final String GITBOOK_GIT_LOCAL_REPO = "gitbook.git.repo";
@@ -38,24 +38,24 @@ public class JekyllAndGitBookBuilder implements WebSiteBuilder{
     private final StaticBuilder gitBookBuilder;
 
     public JekyllAndGitBookBuilder(Properties properties) {
-        this.threadPool = Executors.newFixedThreadPool(5);
+        this.threadPool = Executors.newFixedThreadPool(1);
         this.properties = properties;
-        GitClient jekyllClient = new DefaultGitClient(properties.get(GIT_BASH),properties.get(JEKYLL_GIT_LOCAL_REPO));
-        GitClient gitBookClient = new DefaultGitClient(properties.get(GIT_BASH),properties.get(GITBOOK_GIT_LOCAL_REPO));
+        GitClient jekyllClient = new DefaultGitClient(properties.getString(GIT_BASH),properties.getString(JEKYLL_GIT_LOCAL_REPO));
+        GitClient gitBookClient = new DefaultGitClient(properties.getString(GIT_BASH),properties.getString(GITBOOK_GIT_LOCAL_REPO));
         jekyllBuilder = new JekyllBuilder(
-                properties.get(JEKYLL_BASH),
-                properties.get(JEKYLL_SOURCE),
-                properties.get(JEKYLL_TARGET),
-                properties.get(JEKYLL_PROFILE),
-                properties.get(JEKYLL_REPO),
-                properties.get(JEKYLL_BRANCH),
+                properties.getString(JEKYLL_BASH),
+                properties.getString(JEKYLL_SOURCE),
+                properties.getString(JEKYLL_TARGET),
+                properties.getString(JEKYLL_PROFILE),
+                properties.getString(JEKYLL_REPO),
+                properties.getString(JEKYLL_BRANCH),
                 jekyllClient);
         gitBookBuilder = new GitBookBuilder(
-                properties.get(GITBOOK_BASH),
-                properties.get(GITBOOK_SOURCE),
-                properties.get(GITBOOK_TARGET),
-                properties.get(GITBOOK_REPO),
-                properties.get(GITBOOK_BRANCH),
+                properties.getString(GITBOOK_BASH),
+                properties.getString(GITBOOK_SOURCE),
+                properties.getString(GITBOOK_TARGET),
+                properties.getString(GITBOOK_REPO),
+                properties.getString(GITBOOK_BRANCH),
                 gitBookClient);
     }
 
@@ -79,11 +79,11 @@ public class JekyllAndGitBookBuilder implements WebSiteBuilder{
             String ref = Objects.toString(params.get("ref"));
             ref = ref.substring(ref.lastIndexOf('/')+1);
             ref = ref.replaceAll("\"","");
-            if(properties.get(JEKYLL_PROJECT_NAME).equals(name) && properties.get(JEKYLL_BRANCH).equals(ref)){
+            if(properties.getString(JEKYLL_PROJECT_NAME).equals(name) && properties.getString(JEKYLL_BRANCH).equals(ref)){
                 System.out.println("build jekyll");
                 jekyllBuilder.build();
             }
-            if(properties.get(GITBOOK_PROJECT_NAME).equals(name) && properties.get(GITBOOK_BRANCH).equals(ref)){
+            if(properties.getString(GITBOOK_PROJECT_NAME).equals(name) && properties.getString(GITBOOK_BRANCH).equals(ref)){
                 System.out.println("build gitbook");
                 gitBookBuilder.build();
             }

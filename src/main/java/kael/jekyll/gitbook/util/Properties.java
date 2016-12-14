@@ -32,8 +32,12 @@ public class Properties{
         }
     }
 
-    public String get(String key){
-        return Objects.toString(properties.get(key));
+    public String getString(String key){
+        return properties.getProperty(key);
+    }
+
+    public int getInt(String key){
+        return Integer.parseInt(getString(key));
     }
 
     public void forEach(BiConsumer action){

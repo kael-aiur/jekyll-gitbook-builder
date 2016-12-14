@@ -35,7 +35,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             FullHttpRequest request = (FullHttpRequest)msg;
             request.headers().forEach(stringStringEntry -> System.out.println(stringStringEntry.getKey()+":"+stringStringEntry.getValue()));
             String secret = request.headers().get(hookHeader);
-            if(properties.get("security.secret.key").equals(secret)){
+            if(properties.getString("security.secret.key").equals(secret)){
                 ByteBuf buf = request.content();
 
                 StringReader sr = new StringReader(buf.toString(io.netty.util.CharsetUtil.UTF_8));

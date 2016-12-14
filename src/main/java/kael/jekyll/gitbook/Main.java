@@ -1,9 +1,6 @@
 package kael.jekyll.gitbook;
 
-import kael.jekyll.gitbook.client.HttpClient;
 import kael.jekyll.gitbook.server.HttpServer;
-
-import java.util.Scanner;
 
 
 /**
@@ -11,11 +8,10 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        int port = 8000;
         new Thread(() -> {
             HttpServer server = new HttpServer();
             try {
-                server.start(port);
+                server.start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
