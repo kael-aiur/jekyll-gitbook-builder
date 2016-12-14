@@ -76,11 +76,14 @@ public class JekyllAndGitBookBuilder implements WebSiteBuilder{
         public void run() {
             String name = Objects.toString(((Map<String, Object>) params.get("project")).get("name"));
             name = name.replaceAll("\"","");
-            if(properties.get(JEKYLL_PROJECT_NAME).equals(name)){
+            String ref = Objects.toString(params.get("ref"));
+            ref = ref.substring(ref.lastIndexOf('/')+1);
+            ref = ref.replaceAll("\"","");
+            if(properties.get(JEKYLL_PROJECT_NAME).equals(name) && properties.get(JEKYLL_BRANCH).equals(ref)){
                 System.out.println("build jekyll");
                 jekyllBuilder.build();
             }
-            if(properties.get(GITBOOK_PROJECT_NAME).equals(name)){
+            if(properties.get(GITBOOK_PROJECT_NAME).equals(name) && properties.get(GITBOOK_BRANCH).equals(ref)){
                 System.out.println("build gitbook");
                 gitBookBuilder.build();
             }

@@ -5,17 +5,15 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
-import kael.jekyll.gitbook.service.JekyllAndGitBookBuilder;
 import kael.jekyll.gitbook.service.WebSiteBuilder;
+import kael.jekyll.gitbook.util.Properties;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -23,10 +21,12 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     private final WebSiteBuilder builder;
+    private final Properties properties;
     private static final String hookHeader = "X-Gitlab-Token";
 
-    public ServerHandler(WebSiteBuilder builder) {
+    public ServerHandler(WebSiteBuilder builder,Properties properties) {
         this.builder = builder;
+        this.properties = properties;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             FullHttpRequest request = (FullHttpRequest)msg;
             request.headers().forEach(stringStringEntry -> System.out.println(stringStringEntry.getKey()+":"+stringStringEntry.getValue()));
             String secret = request.headers().get(hookHeader);
-            if("kaelkaelkael".equals(secret)){
+            if(properties.get("security.secret.key").equals(secret)){
                 ByteBuf buf = request.content();
 
                 StringReader sr = new StringReader(buf.toString(io.netty.util.CharsetUtil.UTF_8));

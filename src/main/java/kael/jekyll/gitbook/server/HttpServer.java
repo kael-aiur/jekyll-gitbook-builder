@@ -39,7 +39,7 @@ public class HttpServer {
                             //ch.pipeline().addLast(new HttpRequestDecoder());
                             ch.pipeline().addLast(new HttpServerCodec());
                             ch.pipeline().addLast(new HttpObjectAggregator(65535));
-                            ch.pipeline().addLast(new ServerHandler(builder));
+                            ch.pipeline().addLast(new ServerHandler(builder,properties));
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128) // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
