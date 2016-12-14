@@ -58,4 +58,6 @@ gitbook.source=E:\\test\\gitbook-test
 gitbook.target=D:\\workspace\\tomcat\\tomcat-8.0.35-prod\\webapps\\ROOT\\doc
 # gitbook的工程名，用来判断当前源码更新是否jekyll，要求和jekyll源码工程同名
 gitbook.project.name=gitbook-test
+# 默认密码，用来标识请求是否受信任，需要把这个值填到webhook的Secret Token中
+security.secret.key=kaelkaelkael
 ```
